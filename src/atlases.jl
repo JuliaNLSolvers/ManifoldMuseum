@@ -310,3 +310,57 @@ Compute the local metric tensor for vectors expressed in terms of coordinates
 in basis `B` on manifold `M`. The point `p` is not checked.
 """
 local_metric(::AbstractManifold, ::Any, ::InducedBasis)
+
+"""
+    ChartRetraction{TA<:AbstractAtlas,TI} <: AbstractRetractionMethod
+
+A type for retractions based on a chart.
+"""
+struct ChartRetraction{TA<:AbstractAtlas,TI} <: AbstractRetractionMethod
+    A::TA
+    i::TI
+end
+
+"""
+    retract(M, p, X, cr::ChartRetraction)
+
+Compute the chart-based retraction. The formula reads
+```math
+φ^{-1}(φ(p) + dφ(X))
+```
+where `dφ` computes coordinates in the [`InducedBasis`](@ref) of `φ`.
+"""
+retract(M, p, X, cr::ChartRetraction)
+
+function retract!(M, q, p, X, cr::ChartRetraction)
+    pc = get_parameters(M, cr.A, cr.i, p)
+    Xc = get_coordinates(M, p, X, InducedBasis(TangentSpaceType, cr.A, cr.i))
+    return get_point!(M, q, cr.A, cr.i, pc + Xc)
+end
+
+"""
+    ChartInverseRetraction{TA<:AbstractAtlas,TI} <: AbstractRetractionMethod
+
+A type for inverse retractions based on a chart.
+"""
+struct ChartInverseRetraction{TA<:AbstractAtlas,TI} <: AbstractInverseRetractionMethod
+    A::TA
+    i::TI
+end
+
+"""
+    inverse_retract(M, p, q, cr::ChartInverseRetraction)
+
+Compute the chart-based retraction. The formula reads
+```math
+dφ^{-1}(φ(q) - φ(p))
+```
+where `dφ` computes coordinates in the [`InducedBasis`](@ref) of `φ`.
+"""
+inverse_retract(M, p, q, cr::ChartInverseRetraction)
+
+function inverse_retract!(M, X, p, q, cr::ChartInverseRetraction)
+    pc = get_parameters(M, cr.A, cr.i, p)
+    qc = get_parameters(M, cr.A, cr.i, q)
+    return get_vector!(M, Xc, p, qc - pc, InducedBasis(TangentSpaceType, cr.A, cr.i))
+end

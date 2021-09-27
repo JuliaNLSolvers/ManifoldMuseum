@@ -157,8 +157,7 @@ exp(::AbstractConnectionManifold, ::Any...)
     i = get_chart_index(M, A, p)
     B = induced_basis(M, A, i, TangentSpace)
     sol = solve_exp_ode(M, p, X, tspan, B; dense=false, saveat=[1.0])
-    n = length(p)
-    return copyto!(q, sol.u[1][(n + 1):end])
+    return copyto!(q, sol)
 end
 
 """

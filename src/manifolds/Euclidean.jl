@@ -566,4 +566,92 @@ Return the zero vector in the tangent space of `x` on the [`Euclidean`](@ref)
 zero_vector(::Euclidean, ::Any...)
 zero_vector(::Euclidean{Tuple{}}, p::Number) = zero(p)
 
-zero_vector!(::Euclidean, v, ::Any) = fill!(v, 0)
+zero_vector!(::Euclidean, X, ::Any) = fill!(X, 0)
+
+const EuclideanLikeManifold{𝔽} = Union{
+    Euclidean{𝔽},
+    MetricManifold{𝔽,<:Euclidean{𝔽}},
+    ConnectionManifold{𝔽,<:Euclidean{𝔽}},
+}
+
+"""
+    TrivialEuclideanAtlas
+
+A trivial atlas for essentialy [`Euclidean`](@ref) manifolds with some metric.
+It has only one chart denoted `nothing`.
+"""
+struct TrivialEuclideanAtlas <: AbstractAtlas{ℝ} end
+
+get_default_atlas(::EuclideanLikeManifold) = TrivialEuclideanAtlas()
+
+get_chart_index(::EuclideanLikeManifold, ::TrivialEuclideanAtlas, p) = nothing
+
+function get_parameters!(::EuclideanLikeManifold, a, ::TrivialEuclideanAtlas, ::Nothing, p)
+    return copyto!(a, p)
+end
+
+function get_point!(::EuclideanLikeManifold, p, ::TrivialEuclideanAtlas, ::Nothing, a)
+    return copyto!(p, a)
+end
+
+const InducedTrivialEuclideanBasis{𝔽} =
+    InducedBasis{𝔽,TangentSpaceType,TrivialEuclideanAtlas,Nothing}
+
+function get_coordinates!(
+    M::EuclideanLikeManifold,
+    Y,
+    p,
+    X,
+    ::InducedTrivialEuclideanBasis{ℝ},
+)
+    S = representation_size(M)
+    PS = prod(S)
+    copyto!(Y, reshape(X, PS))
+    return Y
+end
+function get_coordinates!(
+    M::EuclideanLikeManifold{ℂ},
+    Y,
+    ::Any,
+    X,
+    ::InducedTrivialEuclideanBasis{ℂ},
+)
+    S = representation_size(M)
+    PS = prod(S)
+    Y .= [reshape(real.(X), PS)..., reshape(imag(X), PS)...]
+    return Y
+end
+
+function get_vector!(
+    M::EuclideanLikeManifold,
+    Y,
+    ::Any,
+    X,
+    ::InducedTrivialEuclideanBasis{ℝ},
+)
+    S = representation_size(M)
+    copyto!(Y, reshape(X, S))
+    return Y
+end
+function get_vector!(
+    ::EuclideanLikeManifold,
+    Y::AbstractVector,
+    ::Any,
+    X,
+    ::InducedTrivialEuclideanBasis{ℝ},
+)
+    copyto!(Y, X)
+    return Y
+end
+function get_vector!(
+    M::EuclideanLikeManifold{ℂ},
+    Y,
+    ::Any,
+    X,
+    ::InducedTrivialEuclideanBasis{ℂ},
+)
+    S = representation_size(M)
+    N = div(length(X), 2)
+    copyto!(Y, reshape(X[1:N] + im * X[(N + 1):end], S))
+    return Y
+end
