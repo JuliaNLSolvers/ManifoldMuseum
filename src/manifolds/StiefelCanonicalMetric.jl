@@ -16,7 +16,7 @@ See [`inverse_retract(::MetricManifold{ℝ,<:Stiefel{<:Any,ℝ},CanonicalMetric}
 # Fields
 
 * `max_iterations` – maximal number of iterations used in the approximation
-* `tolerance` – a tolerance used as a stopping criterion
+* `tolerance` – a tolerance used as a stopping criterion
 
 """
 struct ApproximateLogarithmicMap{T} <: ApproximateInverseRetraction

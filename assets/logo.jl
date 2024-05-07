@@ -69,7 +69,7 @@ end
 function plot_geodesic!(ax, M, x, y; n=100, options=Dict())
     γ = shortest_geodesic(M, x, y)
     T = range(0, 1; length=n)
-    push!(ax, Plot3(options, Coordinates(Tuple.(γ(T)))))
+    push!(ax, Plot3(options, Coordinates(Tuple.(γ.(T)))))
     return ax
 end
 

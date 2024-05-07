@@ -98,8 +98,8 @@ struct TuckerPoint{T,D} <: AbstractManifoldPoint
 end
 function TuckerPoint(
     core::AbstractArray{T,D},
-    factors::Vararg{MtxT,D},
-) where {T,D,MtxT<:AbstractMatrix{T}}
+    factors::Vararg{<:AbstractMatrix{T},D},
+) where {T,D}
     # Take the QR decompositions of the factors and multiply the R factors into the core
     qrfacs = qr.(factors)
     Q = map(qrfac -> qrfac.Q, qrfacs)
