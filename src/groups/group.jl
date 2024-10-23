@@ -1085,18 +1085,22 @@ Compute logarithmic map on a Lie group `G` invariant to group operation. For gro
 bi-invariant metric or a Cartan-Schouten connection, this is the same as `log` but for
 other groups it may differ.
 """
-function log_inv(G::AbstractManifold, p, q)
-    BG = base_group(G)
-    return log_lie(BG, compose(BG, inv(BG, p), q))
+log_group(G, p, q) = apply_diff(
+    GroupOperationAction(G, (LeftAction(), LeftSide())),
+    p,
+    Identity(G),
+    log_lie(G, apply(GroupOperationAction(G, (RightAction(), LeftSide())), p, q)),
+)
+log_inv(G::AbstractManifold, p, q) = log_group(base_group(G), p, q)
+
+function log_group!(G, Y, p, q)
+    pinvq = apply(GroupOperationAction(G, (RightAction(), LeftSide())), p, q)
+    X = log_lie(G, pinvq)
+    apply_diff!(GroupOperationAction(G, (LeftAction(), LeftSide())), Y, p, Identity(G), X)
+    return Y
 end
-function log_inv!(G::AbstractManifold, X, p, q)
-    x = allocate_result(G, inv, p)
-    BG = base_group(G)
-    inv!(BG, x, p)
-    compose!(BG, x, x, q)
-    log_lie!(BG, X, x)
-    return X
-end
+
+log_inv!(G::AbstractManifold, X, p, q) = log_group!(base_group(G), X, p, q)
 
 """
     exp_inv(G::AbstractManifold, p, X, t::Number=1)
@@ -1105,16 +1109,25 @@ Compute exponential map on a Lie group `G` invariant to group operation. For gro
 bi-invariant metric or a Cartan-Schouten connection, this is the same as `exp` but for
 other groups it may differ.
 """
-function exp_inv(G::AbstractManifold, p, X, t::Number=1)
+function exp_inv(G, p, X)
     BG = base_group(G)
-    return compose(BG, p, exp_lie(BG, t * X))
+    return exp_group(G, p, X)
 end
-function exp_inv!(G::AbstractManifold, q, p, X)
-    BG = base_group(G)
-    exp_lie!(BG, q, X)
-    compose!(BG, q, p, q)
-    return q
+
+function exp_group(G, p, X)
+    translated = apply_diff(GroupOperationAction(G, (RightAction(), LeftSide())), p, p, X)
+    return apply(
+        GroupOperationAction(G, (LeftAction(), LeftSide())),
+        p,
+        exp_lie(G, translated),
+    )
 end
+
+function exp_group!(G, q, p, X)
+    ξ = apply_diff(GroupOperationAction(G, (RightAction(), LeftSide())), p, p, X)
+    return apply!(GroupOperationAction(G, (LeftAction(), LeftSide())), q, p, exp_lie(G, ξ))
+end
+exp_inv!(G, q, p, X) = return exp_group!(base_group(G), q, p, X)
 
 @doc raw"""
     exp_lie(G, X)
@@ -1231,43 +1244,45 @@ function log_lie!(
 end
 
 """
-    GroupExponentialRetraction{D<:ActionDirectionAndSide} <: AbstractRetractionMethod
+    GroupExponentialRetraction <: AbstractRetractionMethod
 
-Retraction using the group exponential [`exp_lie`](@ref) "translated" to any point on the
-manifold.
+Retraction using the invariant group exponential [`exp_inv`](@ref).
 
 For more details, see
 [`retract`](@ref retract(::GroupManifold, p, X, ::GroupExponentialRetraction)).
 
 # Constructor
 
-    GroupExponentialRetraction(conv::ActionDirectionAndSide = LeftAction())
+    GroupExponentialRetraction()
 """
 struct GroupExponentialRetraction{D<:ActionDirectionAndSide} <: AbstractRetractionMethod end
 
-function GroupExponentialRetraction(conv::ActionDirectionAndSide=LeftForwardAction())
-    return GroupExponentialRetraction{typeof(conv)}()
+function GroupExponentialRetraction()
+    return GroupExponentialRetraction{LeftForwardAction}()
 end
 
-"""
-    GroupLogarithmicInverseRetraction{D<:ActionDirectionAndSide} <: AbstractInverseRetractionMethod
+@deprecate GroupExponentialRetraction(conv::ActionDirectionAndSide) GroupExponentialRetraction()
 
-Retraction using the group logarithm [`log_lie`](@ref) "translated" to any point on the
-manifold.
+"""
+    GroupLogarithmicInverseRetraction <: AbstractInverseRetractionMethod
+
+Retraction using the invariant group logarithm [`log_inv`](@ref).
 
 For more details, see
 [`inverse_retract`](@ref inverse_retract(::GroupManifold, p, q ::GroupLogarithmicInverseRetraction)).
 
 # Constructor
 
-    GroupLogarithmicInverseRetraction(conv::ActionDirectionAndSide = LeftForwardAction())
+    GroupLogarithmicInverseRetraction()
 """
 struct GroupLogarithmicInverseRetraction{D<:ActionDirectionAndSide} <:
        AbstractInverseRetractionMethod end
 
-function GroupLogarithmicInverseRetraction(conv::ActionDirectionAndSide=LeftForwardAction())
-    return GroupLogarithmicInverseRetraction{typeof(conv)}()
+function GroupLogarithmicInverseRetraction()
+    return GroupLogarithmicInverseRetraction{LeftForwardAction}()
 end
+
+@deprecate GroupLogarithmicInverseRetraction(conv::ActionDirectionAndSide) GroupLogarithmicInverseRetraction()
 
 direction_and_side(::GroupExponentialRetraction{D}) where {D} = D()
 direction_and_side(::GroupLogarithmicInverseRetraction{D}) where {D} = D()
@@ -1280,18 +1295,13 @@ direction_and_side(::GroupLogarithmicInverseRetraction{D}) where {D} = D()
         method::GroupExponentialRetraction,
     )
 
-Compute the retraction using the group exponential [`exp_lie`](@ref) "translated" to any
-point on the manifold.
-With a group translation ([`translate`](@ref)) ``τ_p`` in a specified direction, the
-retraction is
+Compute the retraction using the invariant group exponential [`exp_inv`](@ref) 
 
 ````math
-\operatorname{retr}_p = τ_p \circ \exp \circ (\mathrm{d}τ_p^{-1})_p,
+\operatorname{retr}_p = \exp_p
 ````
 
-where ``\exp`` is the group exponential ([`exp_lie`](@ref)), and ``(\mathrm{d}τ_p^{-1})_p`` is
-the action of the differential of inverse translation ``τ_p^{-1}`` evaluated at ``p`` (see
-[`inverse_translate_diff`](@ref)).
+where ``\exp`` is the invariant exponential associated to the Cartan–Schouten connection.
 """
 function retract(
     ::TraitList{<:IsGroupManifold},
@@ -1300,11 +1310,7 @@ function retract(
     X,
     method::GroupExponentialRetraction,
 )
-    conv = direction_and_side(method)
-    Xₑ = inverse_translate_diff(G, p, p, X, conv)
-    pinvq = exp_lie(G, Xₑ)
-    q = translate(G, p, pinvq, conv)
-    return q
+    return exp_inv(G, p, X)
 end
 function retract(
     tl::TraitList{<:IsGroupManifold},
@@ -1325,10 +1331,7 @@ function retract!(
     X,
     method::GroupExponentialRetraction,
 )
-    conv = direction_and_side(method)
-    Xₑ = inverse_translate_diff(G, p, p, X, conv)
-    pinvq = exp_lie(G, Xₑ)
-    return translate!(G, q, p, pinvq, conv)
+    return exp_inv!(G, q, p, X)
 end
 function retract!(
     tl::TraitList{<:IsGroupManifold},
@@ -1350,18 +1353,13 @@ end
         method::GroupLogarithmicInverseRetraction,
     )
 
-Compute the inverse retraction using the group logarithm [`log_lie`](@ref) "translated"
-to any point on the manifold.
-With a group translation ([`translate`](@ref)) ``τ_p`` in a specified direction, the
-retraction is
+Compute the inverse retraction using the invariant group logarithm [`log_inv`](@ref) 
 
 ````math
-\operatorname{retr}_p^{-1} = (\mathrm{d}τ_p)_e \circ \log \circ τ_p^{-1},
+\operatorname{retr}_p^{-1} = \log_p
 ````
 
-where ``\log`` is the group logarithm ([`log_lie`](@ref)), and ``(\mathrm{d}τ_p)_e`` is the
-action of the differential of translation ``τ_p`` evaluated at the identity element ``e``
-(see [`translate_diff`](@ref)).
+where ``\log`` is the invariant group logarithm ([`log_inv`](@ref)), the inverse of the group exponential [`exp_inv`](@ref).
 """
 function inverse_retract(
     ::TraitList{<:IsGroupManifold},
@@ -1370,10 +1368,7 @@ function inverse_retract(
     q,
     method::GroupLogarithmicInverseRetraction,
 )
-    conv = direction_and_side(method)
-    pinvq = inverse_translate(G, p, q, conv)
-    Xₑ = log_lie(G, pinvq)
-    return translate_diff(G, p, Identity(G), Xₑ, conv)
+    return log_inv(G, p, q)
 end
 
 function inverse_retract!(
@@ -1384,10 +1379,7 @@ function inverse_retract!(
     q,
     method::GroupLogarithmicInverseRetraction,
 )
-    conv = direction_and_side(method)
-    pinvq = inverse_translate(G, p, q, conv)
-    Xₑ = log_lie(G, pinvq)
-    return translate_diff!(G, X, p, Identity(G), Xₑ, conv)
+    return log_inv!(G, X, p, q)
 end
 
 @trait_function get_vector_lie(G::AbstractManifold, X, B::AbstractBasis)

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * rewrote the `CONTRIBUTING.md` and adapt it to todays links and references.
+* Deprecate direction and side parameter in group exponential/logarithm retractions
 
 ## [0.10.4] - 2024-10-20
 
