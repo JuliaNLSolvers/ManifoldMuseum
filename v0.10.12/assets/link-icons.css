@@ -1,0 +1,41 @@
+a[href^="https://juliamanifolds.github.io/ManifoldsBase.jl/"]::before {
+    content: "";
+    background-image: url('logo-manifoldsbase.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+a[href^="https://manoptjl.org/"]::before {
+    content: "";
+    background-image: url('logo-manopt.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+a[href^="https://en.wikipedia.org/"]::before {
+    content: "";
+    background-image: url('wikipedia.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+@media (prefers-color-scheme: dark) {
+    a[href^="https://juliamanifolds.github.io/ManifoldsBase.jl/"]::before {
+        background-image: url('logo-manifoldsbase-dark.png');
+    }
+}
