@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Get started with Manifolds.jl · Manifolds.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script><link href="../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../index.html"><img class="docs-light-only" src="../assets/logo.png" alt="Manifolds.jl logo"/><img class="docs-dark-only" src="../assets/logo-dark.png" alt="Manifolds.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../index.html">Manifolds.jl</a></span></div><form class="docs-search" action="../search.html"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../index.html">Home</a></li><li><span class="tocitem">Tutorials</span><ul><li class="is-active"><a class="tocitem" href="getstarted.html">Get started with Manifolds.jl</a><ul class="internal"><li><a class="tocitem" href="#Contents"><span>Contents</span></a></li><li><a class="tocitem" href="#Using-the-Library-of-Manifolds"><span>Using the Library of Manifolds</span></a></li><li><a class="tocitem" href="#Implementing-generic-Functions"><span>Implementing generic Functions</span></a></li><li><a class="tocitem" href="#Allocating-and-in-place-computations"><span>Allocating and in-place computations</span></a></li><li><a class="tocitem" href="#Decorating-a-manifold"><span>Decorating a manifold</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li></ul></li></ul></li><li><span class="tocitem">Manifolds</span><ul><li><input class="collapse-toggle" id="menuitem-3-1" type="checkbox"/><label class="tocitem" for="menuitem-3-1"><span class="docs-label">Basic manifolds</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../manifolds/centeredmatrices.html">Centered matrices</a></li><li><a class="tocitem" href="../manifolds/choleskyspace.html">Cholesky space</a></li><li><a class="tocitem" href="../manifolds/circle.html">Circle</a></li><li><a class="tocitem" href="../manifolds/elliptope.html">Elliptope</a></li><li><a class="tocitem" href="../manifolds/essentialmanifold.html">Essential manifold</a></li><li><a class="tocitem" href="../manifolds/euclidean.html">Euclidean</a></li><li><a class="tocitem" href="../manifolds/fixedrankmatrices.html">Fixed-rank matrices</a></li><li><a class="tocitem" href="../manifolds/generalizedstiefel.html">Generalized Stiefel</a></li><li><a class="tocitem" href="../manifolds/generalizedgrassmann.html">Generalized Grassmann</a></li><li><a class="tocitem" href="../manifolds/grassmann.html">Grassmann</a></li><li><a class="tocitem" href="../manifolds/hyperbolic.html">Hyperbolic space</a></li><li><a class="tocitem" href="../manifolds/lorentz.html">Lorentzian manifold</a></li><li><a class="tocitem" href="../manifolds/multinomialdoublystochastic.html">Multinomial doubly stochastic matrices</a></li><li><a class="tocitem" href="../manifolds/multinomial.html">Multinomial matrices</a></li><li><a class="tocitem" href="../manifolds/multinomialsymmetric.html">Multinomial symmetric matrices</a></li><li><a class="tocitem" href="../manifolds/oblique.html">Oblique manifold</a></li><li><a class="tocitem" href="../manifolds/probabilitysimplex.html">Probability simplex</a></li><li><a class="tocitem" href="../manifolds/positivenumbers.html">Positive numbers</a></li><li><a class="tocitem" href="../manifolds/projectivespace.html">Projective space</a></li><li><a class="tocitem" href="../manifolds/generalunitary.html">Orthogonal and Unitary Matrices</a></li><li><a class="tocitem" href="../manifolds/rotations.html">Rotations</a></li><li><a class="tocitem" href="../manifolds/shapespace.html">Shape spaces</a></li><li><a class="tocitem" href="../manifolds/skewhermitian.html">Skew-Hermitian matrices</a></li><li><a class="tocitem" href="../manifolds/spectrahedron.html">Spectrahedron</a></li><li><a class="tocitem" href="../manifolds/sphere.html">Sphere</a></li><li><a class="tocitem" href="../manifolds/stiefel.html">Stiefel</a></li><li><a class="tocitem" href="../manifolds/symmetric.html">Symmetric matrices</a></li><li><a class="tocitem" href="../manifolds/symmetricpositivedefinite.html">Symmetric positive definite</a></li><li><a class="tocitem" href="../manifolds/symmetricpsdfixedrank.html">Symmetric positive semidefinite fixed rank</a></li><li><a class="tocitem" href="../manifolds/symplectic.html">Symplectic</a></li><li><a class="tocitem" href="../manifolds/symplecticstiefel.html">Symplectic Stiefel</a></li><li><a class="tocitem" href="../manifolds/torus.html">Torus</a></li><li><a class="tocitem" href="../manifolds/tucker.html">Tucker</a></li><li><a class="tocitem" href="../manifolds/spheresymmetricmatrices.html">Unit-norm symmetric matrices</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-2" type="checkbox"/><label class="tocitem" for="menuitem-3-2"><span class="docs-label">Combined manifolds</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../manifolds/graph.html">Graph manifold</a></li><li><a class="tocitem" href="../manifolds/power.html">Power manifold</a></li><li><a class="tocitem" href="../manifolds/product.html">Product manifold</a></li><li><a class="tocitem" href="../manifolds/vector_bundle.html">Vector bundle</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Manifold decorators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../manifolds/connection.html">Connection manifold</a></li><li><a class="tocitem" href="../manifolds/group.html">Group manifold</a></li><li><a class="tocitem" href="../manifolds/metric.html">Metric manifold</a></li><li><a class="tocitem" href="../manifolds/quotient.html">Quotient manifold</a></li></ul></li></ul></li><li><span class="tocitem">Features on Manifolds</span><ul><li><a class="tocitem" href="../features/atlases.html">Atlases and charts</a></li><li><a class="tocitem" href="../features/differentiation.html">Differentiation</a></li><li><a class="tocitem" href="../features/distributions.html">Distributions</a></li><li><a class="tocitem" href="../features/statistics.html">Statistics</a></li><li><a class="tocitem" href="../features/testing.html">Testing</a></li><li><a class="tocitem" href="../features/utilities.html">Utilities</a></li></ul></li><li><span class="tocitem">Miscellanea</span><ul><li><a class="tocitem" href="../misc/about.html">About</a></li><li><a class="tocitem" href="../misc/contributing.html">Contributing</a></li><li><a class="tocitem" href="../misc/internals.html">Internals</a></li><li><a class="tocitem" href="../misc/notation.html">Notation</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href="getstarted.html">Get started with Manifolds.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href="getstarted.html">Get started with Manifolds.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaManifolds/Manifolds.jl/blob/main/nothing" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><style>
+    table {
+        display: table !important;
+        margin: 2rem auto !important;
+        border-top: 2pt solid rgba(0,0,0,0.2);
+        border-bottom: 2pt solid rgba(0,0,0,0.2);
+    }
+
+    pre, div {
+        margin-top: 1.4rem !important;
+        margin-bottom: 1.4rem !important;
+    }
+
+    .code-output {
+        padding: 0.7rem 0.5rem !important;
+    }
+
+    .admonition-body {
+        padding: 0em 1.25em !important;
+    }
+</style>
+
+<!-- PlutoStaticHTML.Begin -->
+<!--
+    # This information is used for caching.
+    [PlutoStaticHTML.State]
+    input_sha = "a43eee4c983d0bf32d6a04d41132af64a91972351567ab08d91b3a4ddd22d2bd"
+    julia_version = "1.8.5"
+-->
+
+
+
+
+
+
+
+<div class="markdown"><h1>🚀 Get Started with <code>Manifolds.jl</code></h1><p>This is a short overview of <a href="https://juliamanifolds.github.io/Manifolds.jl/"><code>Manifolds.jl</code></a>.</p><p>This tutorial is rendered from a pluto notebook, so you can also open the file <a href="https://github.com/JuliaManifolds/Manifolds.jl/tree/master/tutorials/getstarted.jl">🎈  tutorials/getstarted.jl</a> in Pluto and work on this tutorial interactively.</p><p>As usual, if you want to install the package, just type</p><pre><code>] add Manifolds</code></pre><p>in Julia REPL or use</p><pre><code>using Pkg; Pkg.add("Manifolds");</code></pre><p>before the first use. Then load the package with</p></div>
+
+<pre class='language-julia'><code class='language-julia'>using Manifolds, Random</code></pre>
+
+
+<pre class='language-julia'><code class='language-julia'>Random.seed!(42);</code></pre>
+
+
+
+<div class="markdown"><p>Since the package heavily depends on <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/"><code>ManifoldsBase.jl</code></a> we will sometimes also link to the interface definition of functions in the interface and mark this with 🔗. When referring to <a href="https://en.wikipedia.org/">Wikipedia</a>, the link is marked with 📖.</p></div>
+
+<h2 id="Contents"><a class="docs-heading-anchor" href="#Contents">Contents</a><a id="Contents-1"></a><a class="docs-heading-anchor-permalink" href="#Contents" title="Permalink"></a></h2><div class="markdown">
+<ul><li><p><a href="#Using-the-Library-of-Manifolds">Using the library of manifolds</a></p></li><li><p><a href="#Implementing-generic-Functions">implementing generic functions</a></p></li><li><p><a href="#Allocating-and-in-place-computations">Allocating and in-place computations</a></p></li><li><p><a href="#Decorating-a-manifold">Decorating a manifold</a></p></li><li><p>Representations with and without charts (see notebook <code>working-in-charts.jl</code>, currently not rendered as a part of this documentation).</p></li></ul></div>
+
+<h2 id="Using-the-Library-of-Manifolds"><a class="docs-heading-anchor" href="#Using-the-Library-of-Manifolds">Using the Library of Manifolds</a><a id="Using-the-Library-of-Manifolds-1"></a><a class="docs-heading-anchor-permalink" href="#Using-the-Library-of-Manifolds" title="Permalink"></a></h2><div class="markdown">
+<p><a href="https://juliamanifolds.github.io/Manifolds.jl/"><code>Manifolds.jl</code></a> is first of all a library of manifolds, see the list in the menu <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/">here</a> under “basic manifolds”.</p><p>Let's look at three examples together with the first few functions on manifolds.</p></div>
+
+
+<div class="markdown"><h4>1. <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/euclidean.html">The Euclidean space</a></h4><p><a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/euclidean.html#Manifolds.Euclidean">The Euclidean space</a> brings us (back) into linear case of vectors, so in terms of manifolds, this is a very simple one. It is often useful to compare to classical algorithms, or implementations.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₁ = Euclidean(3)</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₁">Euclidean(3; field = ℝ)</pre>
+
+
+<div class="markdown"><p>Note that since a manifold is a type in Julia, we write it in CamelCase. Its parameters are first a dimension or size parameter of the manifold, sometimes optional is a field the manifold is defined over.</p><p>For example the above definition is the same as the real-valued case</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₁ === Euclidean(3, field=ℝ)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash146339">true</pre>
+
+
+<div class="markdown"><p>But we even introduced a short hand notation, since ℝ is also just a symbol/variable to use</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₁ === ℝ^3</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash176230">true</pre>
+
+
+<div class="markdown"><p>And similarly here are two ways to create the manifold of vectors of length two with complex entries – or mathematically the space <span class="tex">$\mathbb C^2$</span></p></div>
+
+
+<pre class="code-output documenter-example-output" id="var-hash173963">true</pre>
+
+
+<div class="markdown"><p>The easiest to check is the dimension of a manifold. Here we have three “directions to walk into” at every point <span class="tex">$p\in \mathbb R ^3$</span> so <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions.html#ManifoldsBase.maniold_dimension-Tuple{AbstractManifold}">🔗 <code>manifold_dimension</code></a>) is</p></div>
+
+<pre class='language-julia'><code class='language-julia'>manifold_dimension(M₁)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash396321">3</pre>
+
+
+<div class="markdown"><h4>2. <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/hyperbolic.html">The hyperpolic space</a></h4><p>The <span class="tex">$d$</span>-dimensional <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/hyperbolic.html#Manifolds.Hyperbolic">hyperbolic space</a> is usually represented in <span class="tex">$\mathbb R^{d+1}$</span> as the set of points <span class="tex">$p\in\mathbb R^3$</span> fulfilling</p><p class="tex">$$p_1^2+p_2^2+\cdots+p_d^2-p_{d+1}^2 = -1.$$</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₂ = Hyperbolic(2)</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₂">Hyperbolic(2)</pre>
+
+<pre class='language-julia'><code class='language-julia'>manifold_dimension(M₂)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash102568">2</pre>
+
+
+<div class="markdown"><p>Here, a useful function is to check, whether some <span class="tex">$p∈\mathbb R^3$</span> is a point on the manifold. We can check</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_point(M₂, [0, 0, 1])</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash946434">true</pre>
+
+<pre class='language-julia'><code class='language-julia'>is_point(M₂, [1, 0, 1])</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash129419">false</pre>
+
+
+<div class="markdown"><p>Keyword arguments are passed on to any numerical checks, for example an absolute tolerance when checking the above equiality.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_point(M₃, [0, 0, 1.001]; atol=1e-3)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash992717">true</pre>
+
+
+<div class="markdown"><p>But in an interactive session an error message might be helpful. A positional (third) argument is present to activate this. Here we illustrate this with try-catch to keep the notebook as valid running code.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>@expect_error is_point(M₂, [0, 0, 1.001], true) DomainError</code></pre>
+<div class="markdown"><div class="admonition is-info"><header class="admonition-header">This is how the Error we expect here looks like</header><div class="admonition-body"><pre><code>DomainError with -1.0020009999999997:
+    The point [0.0, 0.0, 1.001] does not lie on Hyperbolic(2) since its Minkowski inner product is not -1.</code></pre></div></div></div>
+
+
+<div class="markdown"><h4>3. <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/sphere.html">The sphere</a></h4><p><a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/sphere.html#Manifolds.Sphere">The sphere</a><span class="tex">$\mathbb S^d$</span> is the <span class="tex">$d$</span>-dimensional sphere represented in its embedded form, that is unit vectors <span class="tex">$p \in \mathbb R^{d+1}$</span> with unit norm <span class="tex">$\lVert p \rVert_2 = 1$</span>.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₃ = Sphere(2)</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₃">Sphere(2, ℝ)</pre>
+
+
+<div class="markdown"><p>Here we can show a last nice check: <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions.html#ManifoldsBase.is_vector"><code>is_vector</code></a> to check whether a tangent vector <code>X</code> is a representation of a tangent vector <span class="tex">$X∈T_p\mathcal M$</span> to a point <code>p</code> on the manifold.</p><p>This function has two positional asrguments, the first to again indicate whether to throw an error, the second to disable the check that <code>p</code> is a valid point on the manifold. Usually this validity is essential for the tangent check, but if it was for example performed before, it can be turned off to spare time.</p><p>For example in our first example the point is not of unit norm</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_vector(M₃, [2, 0, 0], [0, 1, 1])</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash682063">false</pre>
+
+
+<div class="markdown"><p>But the orthogonality of <code>p</code> and <code>X</code> is still valid, so we get</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_vector(M₃, [2, 0, 0], [0, 1, 1], true, false)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash161944">true</pre>
+
+
+<div class="markdown"><p>But of course it is better to use a valid point in the first place</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_vector(M₃, [1, 0, 0], [0, 1, 1])</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash851290">true</pre>
+
+<pre class='language-julia'><code class='language-julia'>@expect_error is_vector(M₃, [1, 0, 0], [0.1, 1, 1], true) DomainError</code></pre>
+<div class="markdown"><div class="admonition is-info"><header class="admonition-header">This is how the Error we expect here looks like</header><div class="admonition-body"><pre><code>DomainError with 0.1:
+    The vector [0.1, 1.0, 1.0] is not a tangent vector to [1, 0, 0] on Sphere(2, ℝ), since it is not orthogonal in the embedding.</code></pre></div></div></div>
+
+
+<div class="markdown"><p>To learn about how to define a manifold youself check out the <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/example.html">How to define your own manifold</a> tutorial of <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/"><code>ManifoldsBase.jl</code></a>.</p></div>
+
+
+<div class="markdown"><h3>Building more advanced manifolds</h3><p>Based on these basic manifolds we can directly build more advanced manifolds.</p><p>The first one concerns vectors or matrices of data on a manifold, the <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/manifolds.html#sec-power-manifold">PowerManifold</a>.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₄ = M₂^2</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₄">PowerManifold(Hyperbolic(2), 2)</pre>
+
+
+<div class="markdown"><p>Then points are represented by arrays, where the power manifold dimension is added in the end. In other words – for the hyperbolic manifold here, we have a matrix with 2 columns, where each column is a valid point on hyperbolic space.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>p = [0 0; 0 1; 1 sqrt(2)]</code></pre>
+<pre class="code-output documenter-example-output" id="var-p">3×2 Matrix{Float64}:
+ 0.0  0.0
+ 0.0  1.0
+ 1.0  1.41421</pre>
+
+<pre class='language-julia'><code class='language-julia'>[is_point(M₂, p[:, 1]), is_point(M₂, p[:, 2])]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash600089">2-element Vector{Bool}:
+ 1
+ 1</pre>
+
+
+<div class="markdown"><p>But of course the method we used previously also works for power manifolds:</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_point(M₄, p)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash166522">true</pre>
+
+
+<div class="markdown"><p>Note that nested power manifolds are combined into one as in</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₄₂ = M₄^4</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₄₂">PowerManifold(Hyperbolic(2), 2, 4)</pre>
+
+
+<div class="markdown"><p>which represents <span class="tex">$2\times 4$</span> – matrices of hyperbolic points represented in <span class="tex">$3\times 2\times 4$</span> arrays.</p></div>
+
+
+<div class="markdown"><p>We can – alternatively – use a power manifold with nested arrays</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₅ = PowerManifold(M₃, NestedPowerRepresentation(), 2)</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₅">PowerManifold(Sphere(2, ℝ), ManifoldsBase.NestedPowerRepresentation(), 2)</pre>
+
+
+<div class="markdown"><p>which emphasizes that we have vectors of length 2 that contain points, so we store them that way.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>p₂ = [[0.0, 0.0, 1.0], [0.0, 1.0, 0.0]]</code></pre>
+<pre class="code-output documenter-example-output" id="var-p₂">2-element Vector{Vector{Float64}}:
+ [0.0, 0.0, 1.0]
+ [0.0, 1.0, 0.0]</pre>
+
+
+<div class="markdown"><p>Top unify both representations, elements of the power manifold can also be accessed in the classical indexing fashion, if we start with the corresponding manifold first. This way one can implement algorithms also independent of which representation is used.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>p[M₄, 1]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash323691">3-element Vector{Float64}:
+ 0.0
+ 0.0
+ 1.0</pre>
+
+<pre class='language-julia'><code class='language-julia'>p₂[M₅, 2]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash717767">3-element Vector{Float64}:
+ 0.0
+ 1.0
+ 0.0</pre>
+
+
+<div class="markdown"><p>Another construtor is the <a href="https://juliamanifolds.github.io/Manifolds.jl/previews/PR534/manifolds/product.html">ProductManifold</a> to combine different manifolds. Here of course the order matters. First we construct these using <span class="tex">$×$</span></p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₆ = M₂ × M₃</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₆">ProductManifold with 2 submanifolds:
+ Hyperbolic(2)
+ Sphere(2, ℝ)</pre>
+
+
+<div class="markdown"><p>Since now the representations might differ from element to element, we have to encapsulate these in their own type.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>p₃ = Manifolds.ArrayPartition([0, 0, 1], [0, 1, 0])</code></pre>
+<pre class="code-output documenter-example-output" id="var-p₃">([0, 0, 1], [0, 1, 0])</pre>
+
+
+<div class="markdown"><p>Here <code>ArrayPartition</code> taken from <a href="https://github.com/SciML/RecursiveArrayTools.jl"><code>RecursiveArrayTools.jl</code></a> to store the point on the product manifold efficiently in one array, still allowing efficient access to the product elements.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>is_point(M₆, p₃, true)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash713989">true</pre>
+
+
+<div class="markdown"><p>But accessing single components still works the same.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>p₃[M₆, 1]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash338428">3-element Vector{Int64}:
+ 0
+ 0
+ 1</pre>
+
+
+<div class="markdown"><p>Finally, also the <a href="https://juliamanifolds.github.io/Manifolds.jl/previews/PR534/manifolds/vector_bundle.html#Manifolds.TangentBundle">TangentBundle</a>, the manifold collecting all tangent spaces on a manifold is available as</p></div>
+
+
+<pre class="code-output documenter-example-output" id="var-M₇">TangentBundle(Sphere(2, ℝ))</pre>
+
+<h2 id="Implementing-generic-Functions"><a class="docs-heading-anchor" href="#Implementing-generic-Functions">Implementing generic Functions</a><a id="Implementing-generic-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Implementing-generic-Functions" title="Permalink"></a></h2><div class="markdown">
+<p>In this section we take a look how to implement generic functions on manifolds.</p></div>
+
+
+<div class="markdown"><p>For our example here, we want to implement the so-called <a href="https://en.wikipedia.org /wiki/Bézier_curve">📖 Bézier curve</a> using the so-called <a href="https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm">📖 de-Casteljau algorithm</a>. The linked algorithm can easily be generalised to manifolds by replacing lines with geodesics. This was for example used in <a class="footnote" href="#footnote-BergmannGousenbourger2018">[BergmannGousenbourger2018]</a> and the following example is an extended version of an example from <a class="footnote" href="#footnote-AxenBaranBergmannRzecki2022">[AxenBaranBergmannRzecki2022]</a>.</p></div>
+
+
+<div class="markdown"><p>The algorithm works recursively. For the case that we have a Bézier curve with just two points, the algorithm just evaluates the geodesic connecting both at some time point <span class="tex">$t∈[0,1]$</span>. The function to evaluate a shortest geodesic (it might not be unique, but then a deterministic choice is taken) between two points <code>p</code> and <code>q</code> on a manifold <code>M</code><a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions.html#ManifoldsBase.shortest_geodesic-Tuple{AbstractManifold,%20Any,%20Any}">🔗 <code>shortest_geodesic(M, p, q, t)</code></a>.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>function de_Casteljau(M::AbstractManifold, t, pts::NTuple{2})
+    return shortest_geodesic(M, pts[1], pts[2], t)
+end</code></pre>
+<pre class="code-output documenter-example-output" id="var-de_Casteljau">de_Casteljau (generic function with 1 method)</pre>
+
+<pre class='language-julia'><code class='language-julia'>function de_Casteljau(M::AbstractManifold, t, pts::NTuple)
+    p = de_Casteljau(M, t, pts[1:(end - 1)])
+    q = de_Casteljau(M, t, pts[2:end])
+    return shortest_geodesic(M, p, q, t)
+end</code></pre>
+<pre class="code-output documenter-example-output" id="var-de_Casteljau">de_Casteljau (generic function with 2 methods)</pre>
+
+
+<div class="markdown"><p>This works fine on the sphere, see <a href="https://manoptjl.org/stable/tutorials/Bezier/">this tutorial</a> for an optimization task involving Bézier curves.</p></div>
+
+
+<div class="markdown"><p>Now on several manifolds the <a href="https://en.wikipedia.org/wiki/Exponential_map_(Riemannian_geometry)">📖 exponential map</a> and its (locally defined) inverse, the logarithmic map might not be available in an implementation. So one way to generalise this, is the use of a retraction (see <a class="footnote" href="#footnote-AbsilMahonySepulchre2008">[AbsilMahonySepulchre2008]</a>, Def. 4.1.1 for details) and its (local) inverse.</p><p>The function itself is quite similar to the expponential map, just that <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.retract">🔗 <code>retract(M, p, X, m)</code></a> has one further parameter, the type of retraction to take, so <code>m</code> is a subtype of <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.AbstractRetractionMethod"><code>AbstractRetractionMethod</code></a><code>m</code>, the same for the <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.inverse_retract">🔗 <code>inverse_retract(M, p, q, n)</code></a> with an <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.AbstractInverseRetractionMethod"><code>AbstractInverseRetractionMethod</code></a><code>n</code>.</p><p>Now, thinking of a generic implementation, we would like to have a way to specify one, that is available. This can be done by using <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.default_retraction_method-Tuple{AbstractManifold}">🔗 <code>default_retraction_method</code></a> and <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.default_inverse_retraction_method-Tuple{AbstractManifold}">🔗 <code>default_inverse_retraction_method</code></a>, respectively. We implement</p></div>
+
+<pre class='language-julia'><code class='language-julia'>function generic_de_Casteljau(
+    M::AbstractManifold,
+    t,
+    pts::NTuple{2};
+    m::AbstractRetractionMethod=default_retraction_method(M),
+    n::AbstractInverseRetractionMethod=default_inverse_retraction_method(M),
+)
+    X = inverse_retract(M, pts[1], pts[2], n)
+    return retract(M, pts[1], X, t, m)
+end</code></pre>
+<pre class="code-output documenter-example-output" id="var-generic_de_Casteljau">generic_de_Casteljau (generic function with 1 method)</pre>
+
+
+<div class="markdown"><p>and for the recursion</p></div>
+
+<pre class='language-julia'><code class='language-julia'>function generic_de_Casteljau(
+    M::AbstractManifold,
+    t,
+    pts::NTuple;
+    m::AbstractRetractionMethod=default_retraction_method(M),
+    n::AbstractInverseRetractionMethod=default_inverse_retraction_method(M),
+)
+    p = generic_de_Casteljau(M, t, pts[1:(end - 1)]; m=m, n=n)
+    q = generic_de_Casteljau(M, t, pts[2:end]; m=m, n=n)
+    X = inverse_retract(M, p, q, n)
+    return retract(M, p, X, t, m)
+end</code></pre>
+<pre class="code-output documenter-example-output" id="var-generic_de_Casteljau">generic_de_Casteljau (generic function with 2 methods)</pre>
+
+
+<div class="markdown"><p>Note that on a manifold <code>M</code> where the exponential map is implemented, the <code>default_retraction_method(M)</code> returns <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/retractions.html#ManifoldsBase.ExponentialRetraction">🔗 <code>ExponentialRetraction</code></a>, which yields that the <code>retract</code> function falls back to calling <code>exp</code>.</p></div>
+
+
+<div class="markdown"><p>The same mechanism exists for <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions.html#ManifoldsBase.parallel_transport_to-Tuple{AbstractManifold,%20Any,%20Any,%20Any}">🔗 <code>parallel_transport_to(M, p, X, q)</code></a> and the more general <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/vector_transports.html#ManifoldsBase.vector_transport_to">🔗 <code>vector_transport_to(M, p, X, q, m)</code></a> whose <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/vector_transports.html#ManifoldsBase.AbstractVectorTransportMethod">🔗 <code>AbstractVectorTransportMethod</code></a><code>m</code> has a default defined by <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/vector_transports.html#ManifoldsBase.default_vector_transport_method-Tuple{AbstractManifold}">🔗 <code>default_vector_transport_method(M)</code></a>.</p></div>
+
+<h2 id="Allocating-and-in-place-computations"><a class="docs-heading-anchor" href="#Allocating-and-in-place-computations">Allocating and in-place computations</a><a id="Allocating-and-in-place-computations-1"></a><a class="docs-heading-anchor-permalink" href="#Allocating-and-in-place-computations" title="Permalink"></a></h2><div class="markdown">
+<p>Memory allocation is a <a href="https://docs.julialang.org/en/v1/manual/performance-tips/#Measure-performance-with-[@time](@ref)-and-pay-attention-to-memory-allocation">critical performace issue</a> when programming in Julia. To take this into account, <code>Manifolds.jl</code> provides special functions to reduce the amount of allocations.</p><p>We again look at the <a href="https://en.wikip edia.org/wiki/Exponential_map_(Riemannian_geometry)">📖 exponential map</a>. On a manifold <code>M</code> the exponential map needs a point <code>p</code> (to start from) and a tangent vector <code>X</code>, which can be seen as direction to “walk into” as well as the length to walk into this direction. In <code>Manifolds.jl</code> the function can then be called with <code>q = exp(M, p, X)</code><a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions.html#Base.exp-Tuple{AbstractManifold,%20Any,%20Any}">🔗</a>. This function returns the resulting point <code>q</code>, which requires to allocate new memory.</p><p>To avoid this allocation, the function <code>exp!(M, q, p, X)</code><a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions.html#ManifoldsBase.exp!-Tuple{AbstractManifold,%20Any,%20Any,%20Any}">🔗</a> can be called. Here <code>q</code> is allocated beforehand and is passed as the memory, where the result is returned in. It might be used even for interims computations, as long as it does not introduce side effects. Thas means that even with <code>exp!(M, p, p, X)</code> the result is correct.</p></div>
+
+
+<div class="markdown"><p>Let's look at an example.</p><p>We take another look at the <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/sphere.html#Manifolds.Sphere"><code>Sphere</code></a> but now a high-dimensional one. We can also illustrate how to generate radnom points and tangent vectors.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M = Sphere(10000)</code></pre>
+<pre class="code-output documenter-example-output" id="var-M">Sphere(10000, ℝ)</pre>
+
+<pre class='language-julia'><code class='language-julia'>p₄ = rand(M);</code></pre>
+
+
+<pre class='language-julia'><code class='language-julia'>X = rand(M; vector_at=p₄);</code></pre>
+
+
+
+<div class="markdown"><p>Now looking at the allocations required we get</p></div>
+
+<pre class='language-julia'><code class='language-julia'>@allocated exp(M, p₄, X)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash177951">80112</pre>
+
+
+<div class="markdown"><p>While if we have the memory</p></div>
+
+<pre class='language-julia'><code class='language-julia'>q₂ = zero(p₄);</code></pre>
+
+
+
+<div class="markdown"><p>There are no new memory allocations necessary if we use the in-place function.</p></div>
+
+<pre class='language-julia'><code class='language-julia'>@allocated exp!(M, q₂, p₄, X)</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash501178">0</pre>
+
+
+<div class="markdown"><p>This methodology is used for all functions that compute a new point or tangent vector. By default all allocating functions allocate memory and call the in-place function. This also means that if you implement a new manifold, you just have to implement the in-place version.</p></div>
+
+<h2 id="Decorating-a-manifold"><a class="docs-heading-anchor" href="#Decorating-a-manifold">Decorating a manifold</a><a id="Decorating-a-manifold-1"></a><a class="docs-heading-anchor-permalink" href="#Decorating-a-manifold" title="Permalink"></a></h2><div class="markdown">
+</div>
+
+
+<div class="markdown"><p>As you saw until now, an <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/types.html#The-AbstractManifold">📎 <code>AbstractManifold</code></a> describes a Riemannian manifold. For completeness, this also includes the chosen <a href="https://en.wikipedia.org/wiki/Metric_tensor">Riemannian metric tensor</a> or inner product on the tangent spaces.</p><p>In <code>Manifolds.jl</code> these are assumed to be a “reasonable default”. For example on the <code>Sphere(n)</code> we used above, the default metric is the one inherited from restricting the inner product from the embedding space onto each tangent space.</p><p>Consider a manifold like</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₈ = SymmetricPositiveDefinite(3)</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₈">SymmetricPositiveDefinite(3)</pre>
+
+
+<div class="markdown"><p>which is the manifold of <span class="tex">$3×3$</span> matrices that are <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/symmetricpositivedefinite.html#Manifolds.SymmetricPositiveDefinite">symmetric and positive definite</a>. which has a default as well, the affine invariant <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/symmetricpositivedefinite.html#Default-metric:-the-linear-affine-metric"><code>LinearAffineMetric</code></a>, but also has several different metrics.</p><p>To switch the metric, we use the idea of a <a href="https://en.wikipedia.org/wiki/Decorator_pattern">📖 decorator pattern</a>-like approach. Defining</p></div>
+
+<pre class='language-julia'><code class='language-julia'>M₈₂ = MetricManifold(M₈, BuresWassersteinMetric())</code></pre>
+<pre class="code-output documenter-example-output" id="var-M₈₂">MetricManifold(SymmetricPositiveDefinite(3), Manifolds.BuresWassersteinMetric())</pre>
+
+
+<div class="markdown"><p>changes the manifold to use the <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/symmetricpositivedefinite.html#Bures-Wasserstein-metric"><code>BuresWassersteinMetric</code></a>.</p><p>This changes all functions that depend on the metric, most prominently the Riemannian matric, but also the exponential and logarithmic map and hence also geodesics.</p><p>All functions that are not dependent on a metric – for example the manifold dimension, the tests of points and vectors we already looked at, but also all retractions – stay unchanged. This means that for example</p></div>
+
+<pre class='language-julia'><code class='language-julia'>[manifold_dimension(M₈₂), manifold_dimension(M₈)]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash156324">2-element Vector{Int64}:
+ 6
+ 6</pre>
+
+
+<div class="markdown"><p>both calls the same underlying function. On the other hand with</p></div>
+
+<pre class='language-julia'><code class='language-julia'>p₅, X₅ = one(zeros(3, 3)), [1.0 0.0 1.0; 0.0 1.0 0.0; 1.0 0.0 1.0]</code></pre>
+<pre class="code-output documenter-example-output" id="var-X₅">([1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.0], [1.0 0.0 1.0; 0.0 1.0 0.0; 1.0 0.0 1.0])</pre>
+
+
+<div class="markdown"><p>but for example the exponential map and the norm yield different results</p></div>
+
+<pre class='language-julia'><code class='language-julia'>[exp(M₈, p₅, X₅), exp(M₈₂, p₅, X₅)]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash930350">2-element Vector{Matrix{Float64}}:
+ [4.194528049465325 0.0 3.194528049465325; 0.0 2.718281828459045 0.0; 3.194528049465325 0.0 4.194528049465328]
+ [2.5 0.0 1.5; 0.0 2.25 0.0; 1.5 0.0 2.5]</pre>
+
+<pre class='language-julia'><code class='language-julia'>[norm(M₈, p₅, X₅), norm(M₈₂, p₅, X₅)]</code></pre>
+<pre class="code-output documenter-example-output" id="var-hash795726">2-element Vector{Float64}:
+ 2.23606797749979
+ 1.118033988749895</pre>
+
+
+<div class="markdown"><p>Technically this done using Traits – the trait here is the <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/metric.html#Manifolds.IsMetricManifold"><code>IsMetricManifold</code></a> trait. Our trait system allows to combine traits but also to inherit properties in a hierarchical way, see <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/decorator.html#Traits-with-an-inheritance-hierarchy">🔗 here</a> for the technical details.</p><p>The same approach is used for</p><ul><li><p>specifying a different <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/connection.html">connection</a></p></li><li><p>specifying a manifold as a certain <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/quotient.html">quotient manifold</a></p></li><li><p>specifying a certain <a href="https://juliamanifolds.github.io/ManifoldsBase.jl/stable/decorator.html#The-Manifold-decorator">embedding</a></p></li><li><p>specify a certain <a href="https://juliamanifolds.github.io/Manifolds.jl/latest/manifolds/group.html">group action</a></p></li></ul><p>Again, for all of these, the concrete types only have to be used if you want to do a second, different from the details, property, for example a second way to embed a manfiold. If a manifold is (in its usual representation) an embedded manifold, this works with the default manifold type already, since then it is again set as the reasonable default.</p></div>
+
+<h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><div class="markdown">
+<div class="footnote" id="footnote-AbsilMahonySepulchre2008"><p class="footnote-title">AbsilMahonySepulchre2008</p><blockquote><p>Absil, P.-A., Mahony, R. and Sepulchre R., <em>Optimization Algorithms on Matrix Manifolds</em> Princeton University Press, 2008, doi: <a href="https://doi.org/10.1515/9781400830244">10.1515/9781400830244</a><a href="http://press.princeton.edu/chapters/absil/">open access</a></p></blockquote></div><div class="footnote" id="footnote-AxenBaranBergmannRzecki2022"><p class="footnote-title">AxenBaranBergmannRzecki2022</p><blockquote><p>Axen, S. D., Baran, M., Bergmann, R. and Rzecki, K: <em>Manifolds.jl: An Extensible Julia Framework for Data Analysis on Manifolds</em>, arXiv preprint, 2022, <a href="https://arxiv.org/abs/2106.08777">2106.08777</a></p></blockquote></div><div class="footnote" id="footnote-BergmannGousenbourger2018"><p class="footnote-title">BergmannGousenbourger2018</p><blockquote><p>Bergmann, R. and Gousenbourger, P.-Y.: <em>A variational model for data fitting on manifolds by minimizing the acceleration of a Bézier curve</em>. Frontiers in Applied Mathematics and Statistics, 2018. doi: <a href="https://dx.doi.org/10.3389/fams.2018.00059">10.3389/fams.2018.00059</a>, arXiv: <a href="https://arxiv.org/abs/1807.10090">1807.10090</a></p></blockquote></div></div>
+
+<!-- PlutoStaticHTML.End --></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../index.html">« Home</a><a class="docs-footer-nextpage" href="../manifolds/centeredmatrices.html">Centered matrices »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Tuesday 24 January 2023 15:57">Tuesday 24 January 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
