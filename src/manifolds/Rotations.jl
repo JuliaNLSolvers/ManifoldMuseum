@@ -17,6 +17,8 @@ function Rotations(n::Int; parameter::Symbol=:type)
     return Rotations{typeof(size)}(size)
 end
 
+# TODO: Remove when removing GroupManifolds, since it is now
+# defined 8and also used then in) LIeGroups.jl
 @doc raw"""
     angles_4d_skew_sym_matrix(A)
 

@@ -33,6 +33,11 @@ group manifolds with an [`Identity`](@ref) element.
     PowerGroup(manifold::AbstractPowerManifold)
 """
 function PowerGroup(manifold::AbstractPowerManifold)
+    Base.depwarn(
+        _dep_warn_group *
+        "\n `PowerGroup` will be named to `PowerLiegroup` and its argument will be a Lie group instead of a manifold.",
+        :PowerGroup,
+    )
     if !is_group_manifold(manifold.manifold)
         error("All powered manifold must be or decorate a group.")
     end

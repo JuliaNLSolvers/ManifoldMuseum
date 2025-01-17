@@ -1,3 +1,7 @@
+_dep_warn_group = """
+GroupManifold functionality will move to its own package `LieGroups.jl`.
+"""
+
 @doc raw"""
     AbstractGroupOperation
 
@@ -245,6 +249,7 @@ function Identity(
     ::TraitList{<:IsGroupManifold{O}},
     ::AbstractDecoratorManifold,
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`Identity` will move and keep its name.", :Idenity)
     return Identity{O}()
 end
 Identity(::O) where {O<:AbstractGroupOperation} = Identity(O)
@@ -264,6 +269,10 @@ points are not represented by arrays.
 identity_element(G::AbstractDecoratorManifold)
 @trait_function identity_element(G::AbstractDecoratorManifold)
 function identity_element(::TraitList{<:IsGroupManifold}, G::AbstractDecoratorManifold)
+    Base.depwarn(
+        _dep_warn_group * "\n`identity_element` will move and keep its name.",
+        :identity_element,
+    )
     BG = base_group(G)
     q = allocate_result(BG, identity_element)
     return identity_element!(BG, q)
@@ -319,6 +328,10 @@ function is_identity(
     q;
     kwargs...,
 )
+    Base.depwarn(
+        _dep_warn_group * "\n`is_identity` will move and keep its name.",
+        :is_identity,
+    )
     BG = base_group(G)
     return isapprox(BG, identity_element(BG), q; kwargs...)
 end
@@ -573,6 +586,11 @@ function ManifoldDiff.differential_exp_argument_lie_approx!(
     Y;
     n=20,
 )
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`differential_exp_argument_lie_approx` will be removed, cf `differential_exp_argument` instead.",
+        :differential_exp_argument_lie_approx,
+    )
     tmp = copy(M, p, Y)
     a = -1.0
     zero_vector!(M, Z, p)
@@ -598,6 +616,7 @@ element of ``\mathcal{G}``.
 inv(::AbstractDecoratorManifold, ::Any...)
 @trait_function Base.inv(G::AbstractDecoratorManifold, p)
 function Base.inv(::TraitList{<:IsGroupManifold}, G::AbstractDecoratorManifold, p)
+    Base.depwarn(_dep_warn_group * "\n`inv` is moved and keeps its name.", :inv)
     q = allocate_result(G, inv, p)
     BG = base_group(G)
     return inv!(BG, q, p)
@@ -608,6 +627,7 @@ function Base.inv(
     ::AbstractDecoratorManifold,
     e::Identity{O},
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`inv` is moved and keeps its name.", :inv)
     return e
 end
 
@@ -646,6 +666,7 @@ inv_diff(G::AbstractDecoratorManifold, p)
 
 @trait_function inv_diff(G::AbstractDecoratorManifold, p, X)
 function inv_diff(::TraitList{<:IsGroupManifold}, G::AbstractDecoratorManifold, p, X)
+    Base.depwarn(_dep_warn_group * "\n`inv_diff` is renamed to `diff_inv`.", :inv_diff)
     return -adjoint_action(base_group(G), p, X)
 end
 
@@ -687,6 +708,7 @@ compose(::AbstractDecoratorManifold, ::Any...)
 
 @trait_function compose(G::AbstractDecoratorManifold, p, q)
 function compose(::TraitList{<:IsGroupManifold}, G::AbstractDecoratorManifold, p, q)
+    Base.depwarn(_dep_warn_group * "\n`compose` is moved and keeps its name.", :compose)
     return _compose(base_group(G), p, q)
 end
 function compose(
@@ -694,6 +716,7 @@ function compose(
     ::Identity{O},
     p,
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`compose` is moved and keeps its name.", :compose)
     return p
 end
 function compose(
@@ -701,6 +724,7 @@ function compose(
     p,
     ::Identity{O},
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`compose` is moved and keeps its name.", :compose)
     return p
 end
 function compose(
@@ -708,6 +732,7 @@ function compose(
     e::Identity{O},
     ::Identity{O},
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`compose` is moved and keeps its name.", :compose)
     return e
 end
 
@@ -780,6 +805,7 @@ function hat(
     ::Identity{O},
     X,
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`hat` is moved and keeps its name.", :hat)
     return get_vector_lie(M, X, VeeOrthogonalBasis())
 end
 function hat!(
@@ -822,6 +848,7 @@ function vee(
     ::Identity{O},
     X,
 ) where {O<:AbstractGroupOperation}
+    Base.depwarn(_dep_warn_group * "\n`vee` is moved and keeps its name.", :vee)
     return get_coordinates_lie(M, X, VeeOrthogonalBasis())
 end
 function vee!(
@@ -884,6 +911,10 @@ function translate(
     q,
     conv::ActionDirectionAndSide,
 )
+    Base.depwarn(
+        _dep_warn_group * "\n`translate` is discontinued – use `compose` instead.",
+        :translate,
+    )
     BG = base_group(G)
     return compose(BG, _action_order(BG, p, q, conv)...)
 end
@@ -935,6 +966,11 @@ function inverse_translate(
     q,
     conv::ActionDirectionAndSide,
 )
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`inverse_translate` is discontinued – use `compose` with the `inv` instead.",
+        :inverse_translate,
+    )
     BG = base_group(G)
     return translate(BG, inv(BG, p), q, conv)
 end
@@ -990,6 +1026,11 @@ function translate_diff(
     X,
     conv::ActionDirectionAndSide,
 )
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`translate_diff` is discontinued – use `diff_right_compose` and `diff_left_compose`, respectively instead.",
+        :translate_diff,
+    )
     Y = allocate_result(G, translate_diff, X, p, q)
     BG = base_group(G)
     translate_diff!(BG, Y, p, q, X, conv)
@@ -1080,6 +1121,11 @@ function inverse_translate_diff(
     X,
     conv::ActionDirectionAndSide,
 )
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`inverse_translate_diff` is discontinued – use `diff_right_compose` and `diff_left_compose`, respectively, together with `inv` instead.",
+        :inverse_translate_diff,
+    )
     BG = base_group(G)
     return translate_diff(BG, inv(BG, p), q, X, conv)
 end
@@ -1113,6 +1159,11 @@ bi-invariant metric or a Cartan-Schouten connection, this is the same as `log` b
 other groups it may differ.
 """
 function log_inv(G::AbstractManifold, p, q)
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`log_inv` is discontinued – use `log` on the Lie group instead.",
+        :log_inv,
+    )
     BG = base_group(G)
     return log_lie(BG, compose(BG, inv(BG, p), q))
 end
@@ -1133,6 +1184,11 @@ bi-invariant metric or a Cartan-Schouten connection, this is the same as `exp` b
 other groups it may differ.
 """
 function exp_inv(G::AbstractManifold, p, X, t::Number=1)
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`exp_inv` is discontinued – use `exp` on the Lie group instead.",
+        :log_inv,
+    )
     BG = base_group(G)
     return compose(BG, p, exp_lie(BG, t * X))
 end
@@ -1186,6 +1242,11 @@ the corresponding trait version `exp_lie(::TraitList{<:IsGroupManifold}, G, X)`.
 exp_lie(G::AbstractManifold, X)
 @trait_function exp_lie(M::AbstractDecoratorManifold, X)
 function exp_lie(::TraitList{<:IsGroupManifold}, G::AbstractDecoratorManifold, X)
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`exp_lie`` is discontinued – use `exp(G, p, X)` on the Lie group at `p` the `Identity` instead.",
+        :exp_lie,
+    )
     BG = base_group(G)
     q = allocate_result(BG, exp_lie, X)
     return exp_lie!(BG, q, X)
@@ -1225,6 +1286,11 @@ either
 log_lie(::AbstractDecoratorManifold, q)
 @trait_function log_lie(G::AbstractDecoratorManifold, q)
 function log_lie(::TraitList{<:IsGroupManifold}, G::AbstractDecoratorManifold, q)
+    Base.depwarn(
+        _dep_warn_group *
+        "\n`log_lie`` is discontinued – use `log(G, p, q)` on the Lie group at `p` the `Identity` instead.",
+        :exp_lie,
+    )
     BG = base_group(G)
     return _log_lie(BG, q)
 end
